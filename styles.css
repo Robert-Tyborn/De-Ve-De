@@ -11,15 +11,15 @@ body{
 }
 #welcome{
     width: 30%;
-    background-color: rgb(241, 195, 80);
+    background-color: rgb(43, 160, 249);
 }
 #enterDetails{
     width: 30%;
-    background-color: goldenrod;
+    background-color: rgb(250, 191, 41);
 }
 #findDetails{
     width: 30%;
-    background-color: goldenrod;
+    background-color: rgb(250, 191, 41);
 }
 input{
     width: 250px;
