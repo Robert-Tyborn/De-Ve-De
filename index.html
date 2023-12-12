@@ -86,10 +86,33 @@
         let findButton = document.querySelector("#find");
         
         function InsertData() {
-
+            set(ref(db, "Movies/" + enterTitle.value), {
+                Title: enterTitle.value,
+                Genre: enterGenre.value,
+                ReleaseDate: enterReleaseDate.value,
+                Watched: enterWatched.value
+            })
+            .then(() => {
+                alert("Your movie was saved!")
+            })
+            .catch((error) => {
+                alert(error)
+            });
         }
         function FindData() {
-            
+            const dbref = ref(db);
+            get(child(dbref, "Movies/" + findTitle.value))
+            .then((snapshot)=>{
+                if (snapshot.exists()) {
+                    findGenre.innerHTML = "Genre: " + snapshot.val().Genre;
+                    findReleaseDate.innerHTML = "ReleaseDate: " + snapshot.val().ReleaseDate;
+                } else {
+                    alert("You don't have a movie with that name, yet!");
+                }
+            })
+            .catch((error)=>{
+                alert(error)
+            })
         }
         function UpdateData() {
             
