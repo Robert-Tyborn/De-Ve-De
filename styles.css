@@ -9,6 +9,10 @@ body{
     margin: 30px;
     
 }
+#logo{
+    margin-top: 25px;
+    margin-left: 40px;
+}
 #welcome{
     width: 30%;
     background-color: rgb(43, 160, 249);
@@ -29,7 +33,7 @@ input{
 button{
     height: 25px;
     background-color: white;
-    color: goldenrod;
+    color:rgb(43, 160, 249);
     border: 1px solid black;
     margin-bottom: 30px;
 }
