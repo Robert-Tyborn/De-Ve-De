@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>de-ve-de</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+   <div id="welcome"> 
+    <h1>The De-Ve-De MovieBase</h1>
+    <h4>We keep track on your movies!</h4>
+    </div>
+
     <div id="enterDetails">
-        <h1>De-Ve-De MovieBase</h1>
+       
+        <h2>Add your movies</h2>
         <h4>Title</h4>
         <input id="enterTitle" type="text">
 
@@ -28,8 +35,15 @@
     </div>
 
     <div id="findDetails">
-        <h1>Find by Title</h1> 
-
+        <h1>Search by Title</h1> 
+        <h4>Title</h4>
+        <input id="findTitle" type="text"> <br><br>
+        <button id="find">SEARCH</button>
+        
+        <h3 id="findName" type="text"></h3>
+        <h3 id="findGenre" type="text"></h3>
+        <h3 id="findYear" type="number"></h3>
+        <h3 id="findWatched" type="checkbox"></h3>
     </div>
 </body>
 </html>
