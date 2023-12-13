@@ -86,18 +86,29 @@
         let findButton = document.querySelector("#find");
         
         function InsertData() {
-            set(ref(db, "Movies/" + enterTitle.value), {
-                Title: enterTitle.value,
-                Genre: enterGenre.value,
-                ReleaseDate: enterReleaseDate.value,
-                Watched: enterWatched.checked
-            })
-            .then(() => {
-                alert("Your movie was saved!")
-            })
-            .catch((error) => {
-                alert(error)
-            });
+            const movieRef = ref(db, "Movies/" + enterTitle.value);
+            get(movieRef)
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        alert("A movie with the same title already exists!");
+                    } else {
+                        set(movieRef, {
+                            Title: enterTitle.value,
+                            Genre: enterGenre.value,
+                            ReleaseDate: enterReleaseDate.value,
+                            Watched: enterWatched.checked
+                        })
+                        .then(() => {
+                            alert("Your movie was saved!");
+                        })
+                        .catch((error) => {
+                            alert(error);
+                        });
+                    }
+                })
+                .catch((error) => {
+                    alert(error);
+                });
         }
         function FindData() {
             const dbref = ref(db);
@@ -112,8 +123,8 @@
                 }
             })
             .catch((error)=>{
-                alert(error)
-            })
+                alert(error);
+            });
         }
         function UpdateData() {
             update(ref(db, "Movies/" + enterTitle.value), {
@@ -122,22 +133,22 @@
                 Watched: enterWatched.checked
             })
             .then(()=>{
-                alert("The movie was updated!")
+                alert("The movie was updated!");
             })
             .catch((error)=>{
-                alert(error)
-            })
+                alert(error);
+            });
             
         }
         function RemoveData() {
             remove(ref(db, "Movies/" + enterTitle.value))
             .then(()=>{
-                alert("The movie was removed!")
+                alert("The movie was removed!");
             })
             .catch((error)=>{
-                alert(error)
+                alert(error);
             })
-        }
+        };
 
         insertButton.addEventListener('click', InsertData);
         updateButton.addEventListener('click', UpdateData);
