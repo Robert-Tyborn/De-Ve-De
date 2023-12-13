@@ -15,6 +15,7 @@ body{
 }
 #welcome{
     width: 30%;
+    height: 500px;
     background-color: rgb(43, 160, 249);
 }
 #enterDetails{
@@ -32,6 +33,7 @@ input{
 }
 button{
     height: 25px;
+    width: 200px;
     background-color: white;
     color:rgb(43, 160, 249);
     border: 1px solid black;
