@@ -39,8 +39,9 @@
         <h3 id="findGenre" type="text"></h3>
         <h3 id="findReleaseDate" type="number"></h3>
         <h3 id="watched"></h3>
-        <input id="findWatched" type="checkbox"><br><br>
+        <input id="findWatched" type="checkbox" style="display: none;"><br><br>       
         <button id="showTitlesButton">SHOW ALL TITLES</button>
+        <button id="exportDatabase">EXPORT DATABASE</button>
 
     </div>
 
@@ -83,7 +84,6 @@
         let updateButton = document.querySelector("#update");
         let removeButton = document.querySelector("#remove");
         let findButton = document.querySelector("#find");
-        // New button
         let showDatabaseButton = document.querySelector("#showDatabase");
         
         function InsertData() {
@@ -138,19 +138,47 @@
             .catch((error)=>{
                 alert(error);
             });
+            findWatched.style.display = "block";
         }
         function UpdateData() {
-            update(ref(db, "Movies/" + enterTitle.value), {
-                Genre: enterGenre.value,
-                ReleaseDate: enterReleaseDate.value
-            })
-            .then(()=>{
-                alert("The movie was updated!");
-            })
-            .catch((error)=>{
-                alert(error);
-            });
+            const movieRef = ref(db, "Movies/" + enterTitle.value);
+            get(movieRef)
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const updateData = {};
+                        const newGenre = enterGenre.value.trim();
+                        const newReleaseDate = enterReleaseDate.value.trim();
+
+                        // Check if new genre is provided and different from the existing one
+                        if (newGenre !== '' && snapshot.val().Genre !== newGenre) {
+                            updateData['Genre'] = newGenre;
+                        }
+
+                        // Check if new release date is provided and different from the existing one
+                        if (newReleaseDate !== '' && snapshot.val().ReleaseDate !== newReleaseDate) {
+                            updateData['ReleaseDate'] = newReleaseDate;
+                        }
+
+                        if (Object.keys(updateData).length > 0) {
+                            update(movieRef, updateData)
+                                .then(() => {
+                                    alert("The movie was updated!");
+                                })
+                                .catch((error) => {
+                                    alert(error);
+                                });
+                        } else {
+                            alert("No new data provided for update.");
+                        }
+                    } else {
+                        alert("Movie not found!");
+                    }
+                })
+                .catch((error) => {
+                    alert(error);
+                });
         }
+
         function RemoveData() {
             remove(ref(db, "Movies/" + enterTitle.value))
             .then(()=>{
@@ -162,13 +190,41 @@
         }
 
         function ShowTitles() {
+    const dbref = ref(db, "Movies");
+    get(dbref)
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                const movies = snapshot.val();
+                const movieEntries = Object.entries(movies);
+                const titlesAndReleaseDates = movieEntries.map(([key, movie]) => `${movie.Title} - ${movie.Genre || 'N/A'}, ${movie.ReleaseDate || 'N/A'} ${movie.Watched ? 'Watched' : 'Not Watched'}`);
+                alert("Movie Titles:\n" + titlesAndReleaseDates.join("\n"));
+            } else {
+                alert("Database is empty!");
+            }
+        })
+        .catch((error) => {
+            alert(error);
+        });
+        }
+
+        function exportDatabase() {
             const dbref = ref(db, "Movies");
             get(dbref)
                 .then((snapshot) => {
                     if (snapshot.exists()) {
                         const movies = snapshot.val();
-                        const titles = Object.keys(movies).map((key) => movies[key].Title);
-                        alert("Movie Titles:\n" + titles.join("\n"));
+                        const jsonData = JSON.stringify(movies, null, 2);
+
+                        // Create a Blob containing the JSON data
+                        const blob = new Blob([jsonData], { type: 'application/json' });
+
+                        // Create a link element and trigger a download
+                        const a = document.createElement('a');
+                        a.href = URL.createObjectURL(blob);
+                        a.download = 'movieDatabase.json';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
                     } else {
                         alert("Database is empty!");
                     }
@@ -177,6 +233,11 @@
                     alert(error);
                 });
         }
+
+// Attach the function to the button click event
+const exportButton = document.querySelector("#exportDatabase");
+exportButton.addEventListener('click', exportDatabase);
+
         insertButton.addEventListener('click', InsertData);
         updateButton.addEventListener('click', UpdateData);
         removeButton.addEventListener('click', RemoveData);

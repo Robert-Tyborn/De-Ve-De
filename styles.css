@@ -25,6 +25,12 @@ body{
 #findDetails{
     width: 30%;
     background-color: rgb(250, 191, 41);
+    /* display: flex;
+    flex-direction: column;
+    align-items: center; */
+}
+#findWatched{
+    margin: auto;
 }
 input{
     width: 250px;
@@ -38,4 +44,7 @@ button{
     color:rgb(43, 160, 249);
     border: 1px solid black;
     margin-bottom: 30px;
+}
+#showTitlesButton, #exportDatabase{
+   
 }
