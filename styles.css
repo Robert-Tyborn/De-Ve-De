@@ -32,6 +32,9 @@ body{
 #findWatched{
     margin: auto;
 }
+#find{
+    margin-bottom: 0;
+}
 input{
     width: 250px;
     height: 25px;
