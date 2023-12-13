@@ -119,7 +119,6 @@
                     findReleaseDate.innerHTML = "ReleaseDate: " + snapshot.val().ReleaseDate;
                     watched.innerHTML = "Watched: ";
                     findWatched.checked = snapshot.val().Watched || false;
-                    // Add event listener for checkbox change to update Firebase
                     findWatched.addEventListener('change', function() {
                         update(ref(db, "Movies/" + findTitle.value), {
                             Watched: findWatched.checked
@@ -149,12 +148,10 @@
                         const newGenre = enterGenre.value.trim();
                         const newReleaseDate = enterReleaseDate.value.trim();
 
-                        // Check if new genre is provided and different from the existing one
                         if (newGenre !== '' && snapshot.val().Genre !== newGenre) {
                             updateData['Genre'] = newGenre;
                         }
 
-                        // Check if new release date is provided and different from the existing one
                         if (newReleaseDate !== '' && snapshot.val().ReleaseDate !== newReleaseDate) {
                             updateData['ReleaseDate'] = newReleaseDate;
                         }
@@ -215,10 +212,8 @@
                         const movies = snapshot.val();
                         const jsonData = JSON.stringify(movies, null, 2);
 
-                        // Create a Blob containing the JSON data
                         const blob = new Blob([jsonData], { type: 'application/json' });
 
-                        // Create a link element and trigger a download
                         const a = document.createElement('a');
                         a.href = URL.createObjectURL(blob);
                         a.download = 'movieDatabase.json';
@@ -234,7 +229,6 @@
                 });
         }
 
-// Attach the function to the button click event
 const exportButton = document.querySelector("#exportDatabase");
 exportButton.addEventListener('click', exportDatabase);
 
