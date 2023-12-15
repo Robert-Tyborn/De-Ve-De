@@ -1,3 +1,6 @@
+// I wanted the code to be well organised so I gave each function their own module / file,
+// for better code structure and maintainability.
+
 import { ref, get, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 export function UpdateData(db, enterTitle, enterGenre, enterReleaseDate) {
